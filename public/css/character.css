@@ -1,0 +1,43 @@
+.itemheader,.hitheader,.rollable,.header{
+    cursor: pointer;
+}
+
+span.char_id{
+    cursor: pointer;
+}
+
+.removethis{
+    cursor: pointer;
+}
+
+div.character{
+    display:block;
+            /*cursor: pointer;*/
+
+    /*set the div in the center of the screen*/
+    /*position:fixed;*/
+    top:10%;
+    left:35%;
+    width:350px;
+    padding: 10px;
+    border: 5px solid black;
+    margin: 10px;
+} 
+
+.container{
+    width: 220px;
+    padding: 10px;
+    border: 5px solid black;
+    margin: 10px;
+}
+
+.dice{
+    float:right;
+}
+textarea{
+    resize: none;
+}
+
+body{
+    text-align:center;
+}
