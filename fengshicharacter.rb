@@ -55,13 +55,18 @@ post "/characters/:name/schiticks" do
         character_id = getCharacterID(db,params["name"])
         results = db.execute("INSERT INTO schiticks ( chr,schitick,chi,shots,notes ) VALUES (#{character_id},'#{schitick}',#{chi},#{shots},'#{notes}');")
         puts "schitck #{schitick} added"
-        results = db.execute("select id from schiticks where chr = #{character_id} order by ROWID DESC limit 1;")[0][0]
+        results = db.execute("select * from schiticks where chr = #{character_id} order by ROWID DESC limit 1;")[0]
         puts "results are #{results}"
-        return results
-    rescue Exception =>e
+        return results.to_json
+    rescue Exception => e
         puts e.message
         puts e.backtrace.inspect
     end
+end
+
+post "/posttest" do
+    puts params[:foobar]
+    return "#{params[:foobar]}\n"
 end
 
 delete "/characters/:name/schiticks/:id" do
@@ -71,8 +76,8 @@ delete "/characters/:name/schiticks/:id" do
         db.execute( "DELETE FROM schiticks WHERE chr = #{chr} and id = #{id};")
         return "success"
     rescue Exception => e
-        puts e.message
-        puts e.backtrace.inspect
+        pp e.message
+        pp e.backtrace.inspect
     end
     return "Failure deleting Schitick"
 end

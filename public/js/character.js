@@ -5,6 +5,7 @@ function addEdit(contain,character){
     $(".editbutton#"+character).click(function(event){
         console.log( "you clicked edit on "+character );
         $(".schitickadd#"+character).slideToggle(0);
+        $(".removethis").slideToggle(0);
     });
 }
 
