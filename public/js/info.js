@@ -67,7 +67,7 @@ function loadInfo(contain,character){
 
         /* body stats */
         bod = stats.find(".stat#bod");
-        bod.append("<span class='mainstat' id='bod'><b>BODY:"+data["bod"]+"</b></span>");
+        bod.append("<span class='mainstat' id='bod'><b>BODY: "+data["bod"]+"</b></span>");
         addsubstat(data,"mov",bod);
         addsubstat(data,"str",bod);
         addsubstat(data,"con",bod);

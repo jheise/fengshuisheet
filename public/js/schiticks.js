@@ -37,7 +37,7 @@ function loadSchiticks(contain,character){
     });
     var add = $( "<div class='schitickadd' id='"+character+"'></div>");
     add.appendTo(inner);
-    var text = $("<input type='text'>");
+    var text = $("<input type='text' placeholder='Schitick Name/Chi/Shot/Notes' >");
     text.appendTo(add);
     add.append("<button class='newschitickbutton' id='"+character+"'>Add</button>");
     $(".newschitickbutton#"+character).click(function(event){

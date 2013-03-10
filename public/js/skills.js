@@ -1,64 +1,61 @@
-function addsubstat(data,stat,target){
-    var expanded = "blank";
-    switch(stat){
-        case "mov":
-            expanded = "Move";
-            break;
-        case "str":
-            expanded = "Strength";
-            break;
-        case "con":
-            expanded = "Constitution";
-            break;
-        case "tgh":
-            expanded = "Toughness";
-            break;
-        case "agl":
-            expanded = "Agility";
-            break;
-        case "dex":
-            expanded = "Dexterity";
-            break;
-        case "spd":
-            expanded = "Speed";
-            break;
-        case "cha":
-            expanded = "Charisma";
-            break;
-        case "int":
-            expanded = "Intelligence";
-            break;
-        case "per":
-            expanded = "Perception";
-            break;
-        case "wil":
-            expanded = "Will Power";
-            break;
-        case "fort":
-            expanded = "Fortune";
-            break;
-        case "kfu":
-            expanded = "Kung Fu";
-            break;
-        case "mag":
-            expanded = "Magic";
-            break;
+function addSkill(contain, skill, character, id, dohide){
+    console.log("addSkill called with "+skill+"with id "+id);
+    var skilldiv = $("<div class='skill'></div>");
+    skilldiv.appendTo(contain);
+    skilldiv.append("<span class='skillspan'>"+skill+"</span>");
+    var removethis = $("<span class='removethis' id='skill"+character+id+"'>X</span>");
+    removethis.appendTo(skilldiv);
+    if( dohide ){
+        removethis.hide();
     }
-    if( data[stat] ){
-        target.append("<span class='substat'>" + expanded + ": " + data[stat] + "</span>");
-    }
+    $("#skill"+character+id).click(function(event){
+        var target = $(this).parent();
+        $.delete_("../characters/"+character+"/skills/"+id,function(content){
+            if( content == "success" ){
+                target.remove();
+            } else {
+                console.log("got back "+content+".");
+            }
+        });
+    });
+
 }
 
 function loadSkills(contain,character){
-    contain.append("<div class='skillsouter'></div>");
-    var outer = contain.find(".skillsouter");
+    var outer =  $("<div class='skillsouter'></div>");
+    outer.appendTo(contain);
     outer.append("<span class='header'><b>Skills</b></span>");
-    outer.append("<div class='skillsinner'></div>");
-    var inner = contain.find(".skillsinner");
+    var inner = $("<div class='skillsinner'></div>");
+    inner.appendTo(outer);
+    var skills = $("<div class='skills'></div>");
+    skills.appendTo(inner);
     $.get("../characters/"+character+"/skills",function(content){
         var data = $.parseJSON(content);
         for( x in data){
-            inner.append("<span class='skill'>"+data[x]["skill"]+": " + data[x]["ga"]+" / "+data[x]["bon"]+" / "+data[x]["av"]+"</span>");
+        /*inner.append("<span class='skill'>"+data[x]["skill"]+": " + data[x]["ga"]+" / "+data[x]["bon"]+" / "+data[x]["av"]+"</span>");*/
+        /*console.log("adding skill with id " + newskill["id"]);*/
+            skillstr = data[x]["skill"]+": " + data[x]["ga"]+" / "+data[x]["bon"]+" / "+data[x]["av"];
+            addSkill(skills,skillstr,character,data[x]["id"],true);
         }
+    });
+    var addsk = $("<div class='skilladd'></div>");
+    addsk.appendTo(inner);
+    var textsk = $("<input type='text' placeholder='skill name/atribute/ga/bonus'>");
+    textsk.appendTo(addsk);
+    addsk.append("<button class='newskillbutton' id='sk"+character+"'>Add</button>");
+    addsk.hide();
+
+    $(".newskillbutton#sk"+character).click(function(event){
+        var skilltext = textsk.val();
+        var skilljson = JSON.stringify({"skill":skilltext});
+        $.post("../characters/"+character+"/skills",
+            {"data":skilljson},
+            function(content){
+                console.log("got back "+content);
+                var newskill = $.parseJSON(content);
+                var newstring = newskill["skill"] + ": " + newskill["ga"] + " / " + newskill["bon"] + " / " + newskill["av"];
+                addSkill(skills,newstring,character,newskill["id"],false);
+                textsk.val('');
+            });
     });
 }
