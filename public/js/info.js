@@ -50,15 +50,19 @@ function addsubstat(data,stat,target){
 }
 
 function loadInfo(contain,character){
-    contain.append("<div class='char_info'></div>");
-    contain.append("<div class='char_stats'></div>");
-    var info  = contain.find(".char_info");
-    var stats = contain.find(".char_stats");
+    var info = $("<div class='char_info'></div>");
+    var stats = $("<div class='char_stats'></div>");
+    info.appendTo(contain);
+    stats.appendTo(contain);
     stats.append( '<span class="header"><b>Stats</b></span>');
-    stats.append( '<div class="stat" id="bod"></div>' );
-    stats.append( '<div class="stat" id="ref"></div>' );
-    stats.append( '<div class="stat" id="mnd"></div>' );
-    stats.append( '<div class="stat" id="chi"></div>' );
+    var bod = $( '<div class="stat" id="bod"></div>' );
+    var ref = $( '<div class="stat" id="ref"></div>' );
+    var mnd = $( '<div class="stat" id="mnd"></div>' );
+    var chi = $( '<div class="stat" id="chi"></div>' );
+    bod.appendTo(stats)
+    ref.appendTo(stats)
+    mnd.appendTo(stats)
+    chi.appendTo(stats)
     $.get("../characters/" + character,function(content){
         var data = $.parseJSON(content);
         /* put in the most required types */
@@ -66,7 +70,6 @@ function loadInfo(contain,character){
         info.append( 'Juncture: ' + data["juncture"]+ '<br/>');
 
         /* body stats */
-        bod = stats.find(".stat#bod");
         bod.append("<span class='mainstat' id='bod'><b>BODY: "+data["bod"]+"</b></span>");
         addsubstat(data,"mov",bod);
         addsubstat(data,"str",bod);
@@ -74,14 +77,12 @@ function loadInfo(contain,character){
         addsubstat(data,"tgh",bod);
 
         /* reflex stats */
-        ref = stats.find(".stat#ref");
         ref.append("<span class='mainstat' id='ref'><b>REFLEX: "+data["ref"]+"</b></span>");
         addsubstat(data,"agl",ref);
         addsubstat(data,"dex",ref);
         addsubstat(data,"spd",ref);
 
         /* Mind stats */
-        mnd = stats.find(".stat#mnd");
         mnd.append("<span class='mainstat' id='mnd'><b>MIND: "+data["mnd"]+"</b></span>");
         addsubstat(data,"cha",mnd);
         addsubstat(data,"int",mnd);
@@ -89,7 +90,6 @@ function loadInfo(contain,character){
         addsubstat(data,"wil",mnd);
 
         /* Chi stats */
-        chi = stats.find(".stat#chi");
         chi.append("<span class='mainstat' id='chi'><b>CHI: "+data["chi"]+"</b></span>");
         addsubstat(data,"fort",chi);
         addsubstat(data,"kfu",chi);

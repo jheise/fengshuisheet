@@ -30,7 +30,6 @@ span.char_id{
 
 .character{
     display:block;
-
 /**//*set the div in the center of the screen*/
 /**//*position:fixed;*/
     top:10%;
@@ -39,13 +38,13 @@ span.char_id{
     height: auto;
     padding: 10px;
     border: 3px solid black;
-/*margin: 10px;*/
+    margin-right: 10px;
     position:relative;
     float:left;
 }
 .action{
-    float:right;
-    width: 500px;
+    float:left;;
+    width: 350px;
     height: auto;
     border: 3px solid black;
 }
@@ -67,6 +66,16 @@ span.char_id{
     display: table;
     width: 250px;
     margin-bottom: 5px;
+}
+.skill,.schitick,.attacks,.notes{
+    /*margin-right: 10px;*/
+}
+.removethis {
+    border: 1px solid black;
+    color: white;
+    padding: 0px;
+    background-color: red;
+    margin-left: 5px;
 }
 /*.schitickouter{*/
 /*text-align:left;*/

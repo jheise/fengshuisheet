@@ -3,7 +3,10 @@ require 'rubygems'
 require 'sinatra'
 require 'sqlite3'
 require 'json'
-
+#configure do
+    #db = SQLite3::Database.new("characters.db")
+    #db.results_as_hash = true
+#end
 db = SQLite3::Database.new("characters.db")
 db.results_as_hash = true
 
@@ -125,8 +128,17 @@ post "/characters/:name/attacks" do
         newattack = JSON.parse(params[:data])["attack"]
         name,dmg,conceal,capacity,notes = newattack.split("/")
         chr = getCharacterID(db,params[:name])
+        if [nil,""].include? capacity
+            capacity = 0
+        end
+        if [nil,0,""].include? notes
+            notes = "-"
+        end
         db.execute("INSERT INTO weapons ( chr, name, dmg, conceal, capacity, notes) VALUES(#{chr}, '#{name}', '#{dmg}', '#{conceal}', '#{capacity}', '#{notes}');")
         results = db.execute("SELECT * FROM weapons WHERE chr= #{chr} ORDER BY ROWID DESC limit 1;")[0]
+        if capacity ==0 
+            capacity = "-"
+        end
         newattack = "#{name}: #{dmg} / #{conceal} / #{capacity} / #{notes}"
         return {"id" => results["id"],"line" => newattack}.to_json
     rescue Exception => e
@@ -151,6 +163,14 @@ get "/characters/:name/attacks" do
     begin
         chr = getCharacterID(db,params[:name])
         results = db.execute("select * from weapons where chr = #{chr};")
+        results.each do |weapon|
+            if [0,nil,""].include? weapon["capacity"]
+                weapon["capacity"] = "-"
+            end
+            if [0,nil,""].include? weapon["notes"]
+                weapon["notes"] = "-"
+            end
+        end
         return results.to_json
     rescue Exception =>e
         puts e.message
