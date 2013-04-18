@@ -18,7 +18,6 @@ function addSkill(contain, skill, character, id, dohide){
             }
         });
     });
-
 }
 
 function loadSkills(contain,character){
@@ -32,8 +31,6 @@ function loadSkills(contain,character){
     $.get("../characters/"+character+"/skills",function(content){
         var data = $.parseJSON(content);
         for( x in data){
-        /*inner.append("<span class='skill'>"+data[x]["skill"]+": " + data[x]["ga"]+" / "+data[x]["bon"]+" / "+data[x]["av"]+"</span>");*/
-        /*console.log("adding skill with id " + newskill["id"]);*/
             skillstr = data[x]["skill"]+": " + data[x]["ga"]+" / "+data[x]["bon"]+" / "+data[x]["av"];
             addSkill(skills,skillstr,character,data[x]["id"],true);
         }

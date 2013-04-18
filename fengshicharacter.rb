@@ -136,11 +136,12 @@ post "/characters/:name/attacks" do
         end
         db.execute("INSERT INTO weapons ( chr, name, dmg, conceal, capacity, notes) VALUES(#{chr}, '#{name}', '#{dmg}', '#{conceal}', '#{capacity}', '#{notes}');")
         results = db.execute("SELECT * FROM weapons WHERE chr= #{chr} ORDER BY ROWID DESC limit 1;")[0]
-        if capacity ==0 
-            capacity = "-"
-        end
-        newattack = "#{name}: #{dmg} / #{conceal} / #{capacity} / #{notes}"
-        return {"id" => results["id"],"line" => newattack}.to_json
+        #if capacity ==0 
+            #capacity = "-"
+        #end
+        #newattack = "#{name}: #{dmg} / #{conceal} / #{capacity} / #{notes}"
+        #return {"id" => results["id"],"line" => newattack}.to_json
+        return results.to_json
     rescue Exception => e
         puts e.message
         puts e.backtrace.inspect

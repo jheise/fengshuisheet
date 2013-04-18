@@ -32,15 +32,25 @@ function loadAttacks(contain,character){
             function(content){
                 console.log("got back "+content);
                 var newattack = $.parseJSON(content);
+                var capacity = "-";
+                if( newattack["capacity"] != "0" ){
+                    capacity = newattack["capacity"];
+                }
+                var newstring =  newattack["name"]+ ": " + newattack["dmg"]
+                     + " / " + newattack["conceal"]
+                     + " / " + capacity
+                     + " / " + newattack["notes"];
                 addLine(
                     attacks,
-                    newattack["line"],
+                    newstring,
                     character,
                     "attacks",
                     newattack["id"],
                     false
                 );
+                text.val('');
             }
         );
+
     });
 }
